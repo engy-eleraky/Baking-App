@@ -19,18 +19,16 @@ import java.util.ArrayList;
  */
 
 public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public interface recipeStepListener {
-         void onClick(StepItem stepItem);
-    }
+    private final recipeStepListener listener;
     Context context;
     ArrayList<?>recipeItems;
-    private final recipeStepListener listener;
     public RecipesDetailsAdapter(Context context, ArrayList<?> recipeItems, RecipesDetailsAdapter.recipeStepListener listener)
     {
         this.context=context;
         this.recipeItems=recipeItems;
         this.listener=listener;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -64,12 +62,9 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void configureIngredientsHolder(IngredientsViewHolder vh1, int position) {
         IngredientItem ingredientItem = (IngredientItem) recipeItems.get(position);
-        vh1.quantity.setText(ingredientItem.getQuantity().toString());
+        vh1.quantity.setText(ingredientItem.getQuantity());
         vh1.measure.setText(ingredientItem.getMeasure());
         vh1.name.setText(ingredientItem.getIngredient());
-
-
-
 
     }
 
@@ -85,10 +80,12 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if(null==recipeItems)return 0;
         return recipeItems.size();
     }
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public int getItemViewType(int position)
     {
@@ -96,6 +93,9 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         { return 1;}
 
         else return 2;
+    }
+    public interface recipeStepListener {
+         void onClick(StepItem stepItem);
     }
 
     public class StepViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener  {
@@ -124,9 +124,4 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             name=itemView.findViewById(R.id.name);
         }
     }
-
-//    public void updateData(ArrayList<RecipeItem> recips) {
-//        recipeItems = recips;
-//        notifyDataSetChanged();
-//    }
 }

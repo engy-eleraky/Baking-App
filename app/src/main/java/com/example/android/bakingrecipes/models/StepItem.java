@@ -2,20 +2,22 @@ package com.example.android.bakingrecipes.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Noga on 11/27/2017.
  */
 
-public class StepItem {
-    @SerializedName("id")
+public class StepItem  implements Serializable{
+   // @SerializedName("id")
     private String id;
-    @SerializedName("shortDescription")
+    //@SerializedName("shortDescription")
     private String shortDescription;
-    @SerializedName("description")
+   // @SerializedName("description")
     private String description;
-    @SerializedName("videoURL")
+   // @SerializedName("videoURL")
     private String videoURL;
-    @SerializedName("thumbnailURL")
+    //@SerializedName("thumbnailURL")
     private String thumbnailURL;
     public StepItem(String id,String shortDescription,String description,String videoURL,String thumbnailURL){
         this.id=id;

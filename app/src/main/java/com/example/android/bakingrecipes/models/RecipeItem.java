@@ -2,31 +2,32 @@ package com.example.android.bakingrecipes.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Noga on 11/26/2017.
  */
 
-public class RecipeItem {
-    @SerializedName("name")
-    private String recipeName;
-    @SerializedName("id")
-    private String recipeId;
-    @SerializedName("image")
-    private String recipeImage;
-    @SerializedName("servings")
+public class RecipeItem implements Serializable{
+    //@SerializedName("name")
+    private String name;
+   // @SerializedName("id")
+    private String id;
+   // @SerializedName("image")
+    private String image;
+    //@SerializedName("servings")
     private String servings;
-    @SerializedName("ingredients")
+   // @SerializedName("ingredients")
     private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
-    @SerializedName("steps")
+    //@SerializedName("steps")
     private ArrayList<StepItem> steps = new ArrayList<StepItem>();
 
-    public RecipeItem(String recipeName,String recipeId,String recipeImage,String servings,
+    public RecipeItem(String name,String id,String image,String servings,
                       ArrayList<IngredientItem> ingredients , ArrayList<StepItem> steps ){
-        this.recipeName=recipeName;
-        this.recipeId=recipeId;
-        this.recipeImage=recipeImage;
+        this.name=name;
+        this.id=id;
+        this.image=image;
         this.servings=servings;
         this.ingredients=ingredients;
         this.steps=steps;
@@ -34,27 +35,27 @@ public class RecipeItem {
     }
 
     public String getRecipeName() {
-        return recipeName;
+        return name;
     }
 
     public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+        this.name = name;
     }
 
     public String getRecipeId() {
-        return recipeId;
+        return id;
     }
 
     public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+        this.id = id;
     }
 
     public String getRecipeImage() {
-        return recipeImage;
+        return image;
     }
 
     public void setRecipeImage(String recipeImage) {
-        this.recipeImage = recipeImage;
+        this.image = image;
     }
 
     public String getServings() {
