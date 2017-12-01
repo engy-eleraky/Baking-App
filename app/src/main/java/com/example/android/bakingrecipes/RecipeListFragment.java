@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.android.bakingrecipes.adapters.IngredientsAdapter;
 import com.example.android.bakingrecipes.adapters.RecipesDetailsAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
@@ -29,14 +32,13 @@ public class RecipeListFragment extends Fragment implements RecipesDetailsAdapte
     OnItemClickListener mCallback;
     RecyclerView.LayoutManager layoutManager;
 
+    public RecipeListFragment() {
+    }
+
     @Override
     public void onClick(StepItem stepItem) {
         mCallback.onItemSelected(stepItem);
 
-    }
-
-    public interface OnItemClickListener {
-        void onItemSelected(StepItem stepItem);
     }
 
     @Override
@@ -49,8 +51,6 @@ public class RecipeListFragment extends Fragment implements RecipesDetailsAdapte
                     + " must implement OnItemClickListener");
         }
     }
-    public RecipeListFragment() {
-    }
 
     @Nullable
     @Override
@@ -59,18 +59,22 @@ public class RecipeListFragment extends Fragment implements RecipesDetailsAdapte
 
         Intent intent = getActivity().getIntent();
         final RecipeItem recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
+        ListView listView=rootView.findViewById(R.id.listView);
+        IngredientsAdapter adapter=new IngredientsAdapter(getActivity(),recipe.getIngredients());
+        listView.setAdapter(adapter);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView2);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
-
         recyclerView.setLayoutManager(layoutManager);
-        RecipesDetailsAdapter adapterIngredients = new RecipesDetailsAdapter(getActivity(), recipe.getIngredients(), this);
         RecipesDetailsAdapter adapterSteps = new RecipesDetailsAdapter(getActivity(), recipe.getSteps(), this);
-        recyclerView.setAdapter(adapterIngredients);
         recyclerView.setAdapter(adapterSteps);
 
         return rootView;
+    }
+
+    public interface OnItemClickListener {
+        void onItemSelected(StepItem stepItem);
     }
 
 }

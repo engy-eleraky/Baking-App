@@ -32,40 +32,15 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        switch (viewType) {
-            case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_ingredient, parent, false);
-                return new IngredientsViewHolder(view);
-            case 2:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_step, parent, false);
                 return new StepViewHolder(view);
 
-        }
-        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case 1:
-                IngredientsViewHolder vh1 = (IngredientsViewHolder) holder;
-                configureIngredientsHolder(vh1, position);
-                break;
-            case 2:
                 StepViewHolder vh2 = (StepViewHolder) holder;
-                configureStepHolder(vh2,position);
-                break;
-
-
-        }
-    }
-
-    private void configureIngredientsHolder(IngredientsViewHolder vh1, int position) {
-        IngredientItem ingredientItem = (IngredientItem) recipeItems.get(position);
-        vh1.quantity.setText(ingredientItem.getQuantity());
-        vh1.measure.setText(ingredientItem.getMeasure());
-        vh1.name.setText(ingredientItem.getIngredient());
-
+               configureStepHolder(vh2,position);
     }
 
     private void configureStepHolder(StepViewHolder vh2,int position) {
@@ -86,14 +61,7 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return position;
     }
 
-    @Override
-    public int getItemViewType(int position)
-    {
-        if(recipeItems.get(0)instanceof IngredientItem )
-        { return 1;}
 
-        else return 2;
-    }
     public interface recipeStepListener {
          void onClick(StepItem stepItem);
     }
@@ -112,16 +80,5 @@ public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             listener.onClick(stepItem);
         }
     }
-    public class IngredientsViewHolder  extends RecyclerView.ViewHolder{
-        TextView name;
-        TextView quantity;
-        TextView measure;
-        public IngredientsViewHolder(View itemView) {
-            super(itemView);
 
-            quantity=itemView.findViewById(R.id.quantity);
-            measure=itemView.findViewById(R.id.measure);
-            name=itemView.findViewById(R.id.name);
-        }
-    }
 }
