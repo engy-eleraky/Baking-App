@@ -44,7 +44,7 @@ public class IngredientsAdapter extends BaseAdapter {
 
     {
         if(convertView==null) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.card_item_ingredient, parent, false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false);
     }
         TextView quantity=convertView.findViewById(R.id.quantity);
         TextView measure=convertView.findViewById(R.id.measure);

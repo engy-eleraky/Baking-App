@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingrecipes.R;
-import com.example.android.bakingrecipes.models.IngredientItem;
-import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
 
 import java.util.ArrayList;
@@ -18,11 +16,11 @@ import java.util.ArrayList;
  * Created by Noga on 11/29/2017.
  */
 
-public class RecipesDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final recipeStepListener listener;
     Context context;
     ArrayList<?>recipeItems;
-    public RecipesDetailsAdapter(Context context, ArrayList<?> recipeItems, RecipesDetailsAdapter.recipeStepListener listener)
+    public StepsAdapter(Context context, ArrayList<?> recipeItems, StepsAdapter.recipeStepListener listener)
     {
         this.context=context;
         this.recipeItems=recipeItems;

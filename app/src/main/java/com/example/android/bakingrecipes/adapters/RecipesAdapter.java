@@ -19,19 +19,16 @@ import java.util.ArrayList;
  */
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHolder> {
-    public interface recipeListener {
-        void onClick(Object recipe);
-    }
+    private final recipeListener listener;
     Context context;
     ArrayList<RecipeItem>recipes;
-    private final recipeListener listener;
-
     public RecipesAdapter(Context context, ArrayList<RecipeItem> recipes, recipeListener listener)
     {
         this.context=context;
         this.recipes=recipes;
         this.listener=listener;
     }
+
     @Override
     public RecipesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.card_item, parent, false);
@@ -42,7 +39,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     @Override
     public void onBindViewHolder(RecipesAdapter.ViewHolder holder, int position) {
         RecipeItem recipe = recipes.get(position);
-//        if(recipe.getRecipeImage().isNotBlank())
+     //  if(recipe.getRecipeImage().isEmpty()))
 //        { Picasso.with(context).load(recipe.getRecipeImage()).placeholder(R.drawable.paking2copy).into(holder.recipeImage);}
 //        else{
 //
@@ -68,6 +65,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         recipes = recipeItems;
         notifyDataSetChanged();
     }
+
+    public interface recipeListener {
+        void onClick(Object recipe);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView recipeText;
         private ImageView recipeImage;

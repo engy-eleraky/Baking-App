@@ -24,11 +24,11 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
 
         //add for fragment
     }
-
+//????????????????????????????????
     @Override
     public void onItemSelected(StepItem stepItem) {
-        Intent intent = new Intent(this, DetailsActivity.class)
-                .putExtra(DATA_KEY, (Serializable) stepItem);
+        Intent intent = new Intent(this, DetailsRecipeStepActivity.class)
+                .putExtra(DATA_KEY, stepItem);
         startActivity(intent);
     }
 }
