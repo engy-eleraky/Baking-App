@@ -44,7 +44,9 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         if(mTwoPane){
             RecipeStepFragment fragmentStep = new RecipeStepFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentStep.setData(stepItem);
+            if(stepItem!=null) {
+                fragmentStep.setData(stepItem);
+            }
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragmentStep)
                     .commit();
