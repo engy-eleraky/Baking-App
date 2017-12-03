@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingrecipes.R;
 import com.example.android.bakingrecipes.models.RecipeItem;
+import com.example.android.bakingrecipes.models.StepItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,12 +40,12 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     @Override
     public void onBindViewHolder(RecipesAdapter.ViewHolder holder, int position) {
         RecipeItem recipe = recipes.get(position);
-     //  if(recipe.getRecipeImage().isEmpty()))
-//        { Picasso.with(context).load(recipe.getRecipeImage()).placeholder(R.drawable.paking2copy).into(holder.recipeImage);}
-//        else{
-//
-//        }
-        Picasso.with(context).load(R.drawable.paking2copy).into(holder.recipeImage);
+
+        try{
+            Picasso.with(context).load(recipe.getRecipeImage()).into(holder.recipeImage);
+        }catch(Exception e){
+            Picasso.with(context).load(R.drawable.cake).into(holder.recipeImage);
+        }
         holder.recipeText.setText(recipe.getRecipeName());
         holder.servingsText.setText(recipe.getServings());
 

@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     android:orientation="horizontal"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp"
+    android:paddingRight="10dp"
     >
     <TextView
         android:id="@+id/quantity"

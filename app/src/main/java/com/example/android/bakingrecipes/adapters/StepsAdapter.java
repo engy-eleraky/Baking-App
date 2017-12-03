@@ -2,6 +2,7 @@ package com.example.android.bakingrecipes.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final recipeStepListener listener;
     Context context;
     ArrayList<?>recipeItems;
-    public StepsAdapter(Context context, ArrayList<?> recipeItems, StepsAdapter.recipeStepListener listener)
+    public StepsAdapter(Context context, ArrayList<?> recipeItems, recipeStepListener listener)
     {
         this.context=context;
         this.recipeItems=recipeItems;
@@ -69,6 +70,8 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public StepViewHolder(View itemView) {
             super(itemView);
             stepShortDescription=itemView.findViewById(R.id.stepShortDescription);
+            itemView.setOnClickListener(this);
+
         }
 
         @Override

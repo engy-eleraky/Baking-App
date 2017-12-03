@@ -21,7 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".DetailsRecipeStepActivity"></activity>
+        <activity android:name=".DetailsRecipeStepActivity"
+            android:label="current step">
+
+        </activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.android.bakingrecipes.adapters.RecipesAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
+import com.example.android.bakingrecipes.models.StepItem;
 import com.example.android.bakingrecipes.retrofit.ApiInterface;
 import com.example.android.bakingrecipes.retrofit.ApiService;
 
@@ -24,10 +25,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivityFragment extends Fragment implements RecipesAdapter.recipeListener {
+    public static final String RESULT_KEY = "myobj";
     ApiInterface service;
     RecipesAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    public static final String RESULT_KEY = "myobj";
     public MainActivityFragment() {
     }
 

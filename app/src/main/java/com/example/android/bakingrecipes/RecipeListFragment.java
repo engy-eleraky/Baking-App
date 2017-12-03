@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,11 @@ import com.example.android.bakingrecipes.models.StepItem;
 public class RecipeListFragment extends Fragment implements StepsAdapter.recipeStepListener{
     OnItemClickListener mCallback;
     RecyclerView.LayoutManager layoutManager;
+     RecipeItem recipe;
 
     public RecipeListFragment() {
     }
-     //?????????????
+
     @Override
     public void onClick(StepItem stepItem) {
         mCallback.onItemSelected(stepItem);
@@ -38,7 +40,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (OnItemClickListener) getActivity();
+            mCallback = (OnItemClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnItemClickListener");
@@ -51,7 +53,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
         View rootView = inflater.inflate(R.layout.list_recipe, container, false);
 
         Intent intent = getActivity().getIntent();
-        final RecipeItem recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
+        recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
         ListView listView=rootView.findViewById(R.id.listView);
         IngredientsAdapter adapter=new IngredientsAdapter(getActivity(),recipe.getIngredients());
         listView.setAdapter(adapter);

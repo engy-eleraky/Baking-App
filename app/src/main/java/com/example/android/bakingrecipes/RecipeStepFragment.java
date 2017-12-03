@@ -1,5 +1,7 @@
 package com.example.android.bakingrecipes;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
 import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -33,6 +32,7 @@ public class RecipeStepFragment extends Fragment {
     SimpleExoPlayerView exoPlayerView;
     SimpleExoPlayer exoPlayer;
     TextView descriptionText;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,25 +40,30 @@ public class RecipeStepFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         exoPlayerView= rootView.findViewById(R.id.recipe_step_video);
         descriptionText=rootView.findViewById(R.id.recipe_description);
+
         return rootView;
 
     }
 
-    public void setData(StepItem step){
-        if(!step.getVideoURL().isEmpty()){
-            setExoPLayerVideo(step);
+    public void setData(StepItem stepItem) {
+
+        try {
+            setExoPLayerVideo(Uri.parse(stepItem.getVideoURL()));
+
+        } catch (Exception e) {
+            exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
+                    (getResources(), R.drawable.caramello));
         }
-        descriptionText.setText(step.getDescription());
-        //put an image if u want to show a one
+
+        descriptionText.setText(stepItem.getDescription());
     }
-    private void setExoPLayerVideo(StepItem step){
+    private void setExoPLayerVideo(Uri uri){
         TrackSelector trackSelector = new DefaultTrackSelector();
         LoadControl loadControl = new DefaultLoadControl();
         exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
         exoPlayerView.setPlayer(exoPlayer);
-        Uri mediaUri=Uri.parse(step.getVideoURL());
         String userAgent = Util.getUserAgent(getActivity(), "bakingrecipes");
-        MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+        MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
                 getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
         exoPlayer.prepare(mediaSource);
         exoPlayer.setPlayWhenReady(true);
