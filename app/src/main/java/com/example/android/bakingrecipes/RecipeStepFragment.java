@@ -40,7 +40,6 @@ public class RecipeStepFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         exoPlayerView= rootView.findViewById(R.id.recipe_step_video);
         descriptionText=rootView.findViewById(R.id.recipe_description);
-
         return rootView;
 
     }
