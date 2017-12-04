@@ -2,6 +2,7 @@ package com.example.android.bakingrecipes;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,10 +27,27 @@ import retrofit2.Response;
 
 public class MainActivityFragment extends Fragment implements RecipesAdapter.recipeListener {
     public static final String RESULT_KEY = "myobj";
+    private static final String SAVED_LAYOUT_MANAGER = "layout";
     ApiInterface service;
     RecipesAdapter adapter;
+    RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
+    Parcelable layout;
+
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outsate) {
+        outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        super.onSaveInstanceState(outsate);
+    }
+    @Override
+    public void onActivityCreated( Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null  ){
+            layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+        }
     }
 
     @Override
@@ -38,7 +56,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         service = ApiService.getService();
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
+         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutManager = new GridLayoutManager(getActivity(), 1);
@@ -51,7 +69,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
         recyclerView.setAdapter(adapter);
 
         loadData();
-
+        restoreLayoutManagerPosition();
         return rootView;
 
     }
@@ -85,4 +103,11 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
         startActivity(intent);
 
     }
+    private void restoreLayoutManagerPosition() {
+        if (layout != null ) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layout);
+
+        }
+    }
+
 }

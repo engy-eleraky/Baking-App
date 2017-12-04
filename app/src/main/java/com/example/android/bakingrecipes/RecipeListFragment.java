@@ -3,6 +3,7 @@ package com.example.android.bakingrecipes;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,11 +24,25 @@ import com.example.android.bakingrecipes.models.StepItem;
  */
 
 public class RecipeListFragment extends Fragment implements StepsAdapter.recipeStepListener{
+    private static final String SAVED_LAYOUT_MANAGER = "layout";
+    Parcelable layout;
     OnItemClickListener mCallback;
     RecyclerView.LayoutManager layoutManager;
      RecipeItem recipe;
-
+    RecyclerView recyclerView;
     public RecipeListFragment() {
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outsate) {
+        outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        super.onSaveInstanceState(outsate);
+    }
+    @Override
+    public void onActivityCreated( Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState!=null  ){
+            layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+        }
     }
 
     @Override
@@ -58,13 +73,13 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
         IngredientsAdapter adapter=new IngredientsAdapter(getActivity(),recipe.getIngredients());
         listView.setAdapter(adapter);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView2);
+        recyclerView = rootView.findViewById(R.id.recyclerView2);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         StepsAdapter adapterSteps = new StepsAdapter(getActivity(), recipe.getSteps(), this);
         recyclerView.setAdapter(adapterSteps);
-
+        restoreLayoutManagerPosition();
         return rootView;
     }
 
@@ -74,6 +89,12 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
        mCallback = null;
     }
 
+    private void restoreLayoutManagerPosition() {
+        if (layout != null ) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layout);
+
+        }
+    }
     public interface OnItemClickListener {
         void onItemSelected(StepItem stepItem);
     }
