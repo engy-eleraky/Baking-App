@@ -30,6 +30,7 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
             if (savedInstanceState == null) {
                 RecipeStepFragment fragmentStep = new RecipeStepFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentStep.setArguments(null);
                 fragmentManager.beginTransaction()
                         .add(R.id.container, fragmentStep)
                         .commit();
@@ -38,23 +39,23 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         else{
             mTwoPane=false;
         }
-    }
+   }
     @Override
     public void onItemSelected(StepItem stepItem) {
+        Bundle args = new Bundle();
+        args.putSerializable(DATA_KEY, stepItem);
+        RecipeStepFragment fragmentStep = new RecipeStepFragment();
+        fragmentStep.setArguments(args);
         if(mTwoPane){
-            RecipeStepFragment fragmentStep = new RecipeStepFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            if(stepItem!=null) {
-                fragmentStep.setData(stepItem);
-            }
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragmentStep)
                     .commit();
         }
         else {
             Intent intent = new Intent(this, DetailsRecipeStepActivity.class);
-            intent.putExtra(DATA_KEY, stepItem);
+            intent.putExtras(args);
             startActivity(intent);
-        }
+       }
     }
 }

@@ -11,19 +11,15 @@ import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
 
 public class DetailsRecipeStepActivity extends AppCompatActivity {
-    StepItem stepItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_recipe_step);
 
         if (savedInstanceState==null) {
-            Intent intent = getIntent();
-            stepItem = (StepItem) intent.getSerializableExtra(DetailsActivity.DATA_KEY);
+
             RecipeStepFragment fragmentStep = new RecipeStepFragment();
-            if(stepItem!=null){
-            fragmentStep.setData(stepItem);
-            }
+            fragmentStep.setArguments(getIntent().getExtras());
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.container, fragmentStep)

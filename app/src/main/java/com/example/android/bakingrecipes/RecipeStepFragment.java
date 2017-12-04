@@ -32,7 +32,7 @@ public class RecipeStepFragment extends Fragment {
     SimpleExoPlayerView exoPlayerView;
     SimpleExoPlayer exoPlayer;
     TextView descriptionText;
-
+    StepItem stepItem;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +40,14 @@ public class RecipeStepFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         exoPlayerView= rootView.findViewById(R.id.recipe_step_video);
         descriptionText=rootView.findViewById(R.id.recipe_description);
+        Bundle args = getArguments();
+        if (args == null) {
+            return null;
+        }
+        StepItem stepItem= (StepItem) args.getSerializable(DetailsActivity.DATA_KEY);
+        setData(stepItem);
+        exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
+                (getResources(), R.drawable.caramello));
         return rootView;
 
     }
@@ -47,25 +55,27 @@ public class RecipeStepFragment extends Fragment {
     public void setData(StepItem stepItem) {
 
         try {
+
             setExoPLayerVideo(Uri.parse(stepItem.getVideoURL()));
 
         } catch (Exception e) {
-            exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                    (getResources(), R.drawable.caramello));
+
         }
 
         descriptionText.setText(stepItem.getDescription());
     }
-    private void setExoPLayerVideo(Uri uri){
-        TrackSelector trackSelector = new DefaultTrackSelector();
-        LoadControl loadControl = new DefaultLoadControl();
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-        exoPlayerView.setPlayer(exoPlayer);
-        String userAgent = Util.getUserAgent(getActivity(), "bakingrecipes");
-        MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
-                getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
-        exoPlayer.prepare(mediaSource);
-        exoPlayer.setPlayWhenReady(true);
+    private void setExoPLayerVideo(Uri uri) {
+        if (exoPlayer==null) {
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+            exoPlayerView.setPlayer(exoPlayer);
+            String userAgent = Util.getUserAgent(getActivity(), "bakingrecipes");
+            MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
+                    getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
+            exoPlayer.prepare(mediaSource);
+            exoPlayer.setPlayWhenReady(true);
+        }
     }
     private void releasePlayer() {
         exoPlayer.stop();
