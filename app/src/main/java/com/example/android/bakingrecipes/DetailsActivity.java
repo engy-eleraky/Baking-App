@@ -68,13 +68,13 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            String recipeName = recipe.getRecipeName() ;
+            //String recipeName = recipe.getRecipeName() ;
             Gson gson = new Gson();
             String json = gson.toJson(recipe.getIngredients());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor;
             editor = preferences.edit();
-            editor.putString(SHARED_PREF_RECIPE_NAME,recipeName);
+            //editor.putString(SHARED_PREF_RECIPE_NAME,recipeName);
             editor.putString(SHARED_PREF_RECIPE_INGREDIENTS,json);
             editor.apply();
             Toast.makeText(getApplicationContext(),"Added to widget",Toast.LENGTH_SHORT).show();
