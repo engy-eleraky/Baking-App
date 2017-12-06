@@ -10,17 +10,11 @@ import java.util.ArrayList;
  */
 
 public class RecipeItem implements Serializable{
-    //@SerializedName("name")
     private String name;
-   // @SerializedName("id")
     private String id;
-   // @SerializedName("image")
     private String image;
-    //@SerializedName("servings")
     private String servings;
-   // @SerializedName("ingredients")
     private ArrayList<IngredientItem> ingredients = new ArrayList<IngredientItem>();
-    //@SerializedName("steps")
     private ArrayList<StepItem> steps = new ArrayList<StepItem>();
 
     public RecipeItem(String name,String id,String image,String servings,

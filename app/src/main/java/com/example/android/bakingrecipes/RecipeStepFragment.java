@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -60,8 +62,7 @@ public class RecipeStepFragment extends Fragment {
             prevButton=rootView.findViewById(R.id.previousStep);
             descriptionText = rootView.findViewById(R.id.recipe_description);
             descriptionText.setText(stepItem.getDescription());
-        exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                (getResources(), R.drawable.caramello));
+
 
         setVideo(stepItem);
         return rootView;

@@ -2,21 +2,34 @@ package com.example.android.bakingrecipes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.android.bakingrecipes.adapters.IngredientsAdapter;
 import com.example.android.bakingrecipes.adapters.StepsAdapter;
+import com.example.android.bakingrecipes.models.IngredientItem;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
+import com.example.android.bakingrecipes.widget.BakingWidgetProvider;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,7 +41,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     Parcelable layout;
     OnItemClickListener mCallback;
     RecyclerView.LayoutManager layoutManager;
-     RecipeItem recipe;
+    RecipeItem recipe;
     RecyclerView recyclerView;
     public RecipeListFragment() {
     }
@@ -44,6 +57,8 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
             layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
     }
+
+
 
     @Override
     public void onClick(StepItem stepItem) {
@@ -65,6 +80,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.list_recipe, container, false);
 
         Intent intent = getActivity().getIntent();
@@ -86,7 +102,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     @Override
     public void onDetach() {
         super.onDetach();
-       mCallback = null;
+        mCallback = null;
     }
 
     private void restoreLayoutManagerPosition() {

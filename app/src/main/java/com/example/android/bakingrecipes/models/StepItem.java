@@ -9,15 +9,10 @@ import java.io.Serializable;
  */
 
 public class StepItem  implements Serializable{
-   // @SerializedName("id")
     private String id;
-    //@SerializedName("shortDescription")
     private String shortDescription;
-   // @SerializedName("description")
     private String description;
-   // @SerializedName("videoURL")
     private String videoURL;
-    //@SerializedName("thumbnailURL")
     private String thumbnailURL;
     public StepItem(String id,String shortDescription,String description,String videoURL,String thumbnailURL){
         this.id=id;

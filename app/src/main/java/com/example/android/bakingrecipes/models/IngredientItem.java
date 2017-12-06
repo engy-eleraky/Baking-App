@@ -9,11 +9,8 @@ import java.io.Serializable;
  */
 
 public class IngredientItem implements Serializable{
-    //@SerializedName("quantity")
     private String quantity;
-   // @SerializedName("measure")
     private String measure;
-   // @SerializedName("ingredient")
     private String ingredient;
     public IngredientItem(String quantity,String measure,String ingredient){
         this.quantity=quantity;
