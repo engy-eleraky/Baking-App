@@ -12,6 +12,7 @@ import com.example.android.bakingrecipes.R;
 import com.example.android.bakingrecipes.models.StepItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Noga on 11/29/2017.
@@ -20,11 +21,11 @@ import java.util.ArrayList;
 public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final recipeStepListener listener;
     Context context;
-    ArrayList<?>recipeItems;
-    public StepsAdapter(Context context, ArrayList<?> recipeItems, recipeStepListener listener)
+    ArrayList<?>stepItems;
+    public StepsAdapter(Context context, ArrayList<?> stepItems, recipeStepListener listener)
     {
         this.context=context;
-        this.recipeItems=recipeItems;
+        this.stepItems=stepItems;
         this.listener=listener;
     }
 
@@ -43,7 +44,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void configureStepHolder(StepViewHolder vh2,int position) {
-        StepItem stepItem = (StepItem) recipeItems.get(position);
+        StepItem stepItem = (StepItem) stepItems.get(position);
         vh2.stepShortDescription.setText(stepItem.getShortDescription());
 
 
@@ -51,8 +52,8 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if(null==recipeItems)return 0;
-        return recipeItems.size();
+        if(null==stepItems)return 0;
+        return stepItems.size();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public interface recipeStepListener {
-         void onClick(StepItem stepItem);
+         void onClick(StepItem stepItem, int position, ArrayList steps);
     }
 
     public class StepViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener  {
@@ -77,8 +78,8 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void onClick(View view) {
             int clickedPosition= getAdapterPosition();
-            StepItem stepItem= (StepItem) recipeItems.get(clickedPosition);
-            listener.onClick(stepItem);
+            StepItem stepItem= (StepItem) stepItems.get(clickedPosition);
+            listener.onClick(stepItem,clickedPosition,stepItems);
         }
     }
 

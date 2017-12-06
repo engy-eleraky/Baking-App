@@ -61,8 +61,8 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
 
 
     @Override
-    public void onClick(StepItem stepItem) {
-        mCallback.onItemSelected(stepItem);
+    public void onClick(StepItem stepItem,int position,ArrayList steps) {
+        mCallback.onItemSelected(stepItem,position,steps);
 
     }
 
@@ -112,7 +112,7 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
         }
     }
     public interface OnItemClickListener {
-        void onItemSelected(StepItem stepItem);
+        void onItemSelected(StepItem stepItem,int position,ArrayList steps);
     }
 
 }

@@ -34,7 +34,8 @@
             android:layout_alignParentRight="true"
             android:contentDescription="next button"
             android:src="@drawable/next"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            />
         <ImageButton
             android:id="@+id/previousStep"
             android:layout_width="wrap_content"
@@ -42,7 +43,8 @@
             android:layout_alignParentLeft="true"
             android:contentDescription="prev button"
             android:src="@drawable/prev"
-            android:visibility="visible"/>
+            android:visibility="visible"
+           />
         </RelativeLayout>
     </LinearLayout>
 

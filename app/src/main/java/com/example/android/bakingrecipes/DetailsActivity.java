@@ -2,6 +2,7 @@ package com.example.android.bakingrecipes;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,9 +30,6 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public static final String SHARED_PREF_RECIPE_NAME="recipeName";
     public static final String SHARED_PREF_RECIPE_INGREDIENTS="recipeIngredients";
     RecipeItem recipe;
-    List<IngredientItem> ingredients ;
-    ArrayList<RecipeItem> recipes ;
-    int Position ;
     private boolean mTwoPane;
 
     @Override
@@ -85,9 +83,11 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         return super.onOptionsItemSelected(item);
     }
     @Override
-    public void onItemSelected(StepItem stepItem) {
+    public void onItemSelected(StepItem stepItem,int position,ArrayList steps) {
         Bundle args = new Bundle();
         args.putSerializable(DATA_KEY, stepItem);
+        args.putInt("click",position);
+        args.putSerializable("array",steps);
         RecipeStepFragment fragmentStep = new RecipeStepFragment();
         fragmentStep.setArguments(args);
         if(mTwoPane){
