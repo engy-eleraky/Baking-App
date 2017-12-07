@@ -3,6 +3,10 @@ package com.example.android.bakingrecipes;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,6 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.android.bakingrecipes.MainActivity.idlingResource;
+//import  app.com.example.shalan.bakingudacity.MainActivity.mMainActivityIdlingResource;
+
 public class MainActivityFragment extends Fragment implements RecipesAdapter.recipeListener {
     public static final String RESULT_KEY = "myobj";
     private static final String SAVED_LAYOUT_MANAGER = "layout";
@@ -33,6 +40,9 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Parcelable layout;
+//    @Nullable
+//    private
+//    SimpleIdlingResource idlingResource ;
 
     public MainActivityFragment() {
     }
@@ -53,6 +63,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         service = ApiService.getService();
 
@@ -85,6 +96,10 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
                 }else {
                     int statusCode  = response.code();
                     Log.d("status code: ", String.valueOf(statusCode));
+
+                }
+                if (idlingResource != null) {
+                    idlingResource.setIdleState(true);
                 }
             }
 
