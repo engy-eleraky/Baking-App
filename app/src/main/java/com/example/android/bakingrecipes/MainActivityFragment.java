@@ -3,10 +3,6 @@ package com.example.android.bakingrecipes;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,22 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.android.bakingrecipes.adapters.RecipesAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
-import com.example.android.bakingrecipes.models.StepItem;
 import com.example.android.bakingrecipes.retrofit.ApiInterface;
 import com.example.android.bakingrecipes.retrofit.ApiService;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.android.bakingrecipes.MainActivity.idlingResource;
-//import  app.com.example.shalan.bakingudacity.MainActivity.mMainActivityIdlingResource;
 
 public class MainActivityFragment extends Fragment implements RecipesAdapter.recipeListener {
     public static final String RESULT_KEY = "myobj";
@@ -40,10 +31,6 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Parcelable layout;
-//    @Nullable
-//    private
-//    SimpleIdlingResource idlingResource ;
-
     public MainActivityFragment() {
     }
 
