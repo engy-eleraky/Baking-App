@@ -9,6 +9,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -54,6 +57,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         service = ApiService.getService();
@@ -75,6 +79,21 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
         restoreLayoutManagerPosition();
         return rootView;
 
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+
+            loadData();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void loadData() {
