@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.example.android.bakingrecipes.adapters.RecipesAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.retrofit.ApiInterface;
@@ -31,6 +33,8 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     Parcelable layout;
+    ProgressBar progressBar;
+
     public MainActivityFragment() {
     }
 
@@ -53,8 +57,9 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         service = ApiService.getService();
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
-         recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutManager = new GridLayoutManager(getActivity(), 1);
@@ -78,6 +83,9 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
             public void onResponse(Call<ArrayList<RecipeItem>> call, Response<ArrayList<RecipeItem>> response) {
                 if(response.isSuccessful()) {
                     ArrayList<RecipeItem> recipes = response.body();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setAdapter(adapter);
                     adapter.updateData(recipes);
                     Log.d("MainActivityFragment", "data loaded");
                 }else {
@@ -92,6 +100,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
 
             @Override
             public void onFailure(Call<ArrayList<RecipeItem>> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.d("http fail: ", t.getMessage());
 
             }
