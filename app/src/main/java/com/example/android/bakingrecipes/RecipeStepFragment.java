@@ -66,30 +66,35 @@ public class RecipeStepFragment extends Fragment {
             long pos = savedInstanceState.getLong("seekto");
             seekTo(pos);
         }
+          if(DetailsActivity.mTwoPane)
+          {
+              nextButton.setVisibility(View.INVISIBLE);
+              prevButton.setVisibility(View.INVISIBLE);
+          }else {
+              nextButton.setOnClickListener(new View.OnClickListener() {
+                  public void onClick(View v) {
+                      position++;
+                      if (position < stepItems.size()) {
+                          StepItem step = stepItems.get(position);
+                          setVideo(step);
+                      } else {
+                          position--;
+                      }
+                  }
+              });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                position++;
-                if (position < stepItems.size()) {
-                    StepItem step = stepItems.get(position);
-                    setVideo(step);
-                } else {
-                    position--;
-                }
-            }
-        });
-
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                position--;
-                if (position >= 0) {
-                    StepItem step = stepItems.get(position);
-                    setVideo(step);
-                } else {
-                    position++;
-                }
-            }
-        });
+              prevButton.setOnClickListener(new View.OnClickListener() {
+                  public void onClick(View v) {
+                      position--;
+                      if (position >= 0) {
+                          StepItem step = stepItems.get(position);
+                          setVideo(step);
+                      } else {
+                          position++;
+                      }
+                  }
+              });
+         }
         return rootView;
 
     }

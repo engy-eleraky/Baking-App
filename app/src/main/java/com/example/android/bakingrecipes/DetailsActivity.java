@@ -29,8 +29,8 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public static final String DATA_KEY = "myobj";
     public static final String SHARED_PREF_RECIPE_NAME="recipeName";
     public static final String SHARED_PREF_RECIPE_INGREDIENTS="recipeIngredients";
+    public static boolean mTwoPane;
     RecipeItem recipe;
-    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         setContentView(R.layout.activity_details);
         Intent intent = getIntent();
         recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
-//        setTitle(recipe.getRecipeName());
+        //setTitle(recipe.getRecipeName());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         toolbar.setTitle(recipe.getRecipeName());
         setSupportActionBar(toolbar);
@@ -70,13 +70,13 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            //String recipeName = recipe.getRecipeName() ;
+            String recipeName = recipe.getRecipeName() ;
             Gson gson = new Gson();
             String json = gson.toJson(recipe.getIngredients());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor;
             editor = preferences.edit();
-            //editor.putString(SHARED_PREF_RECIPE_NAME,recipeName);
+            editor.putString(SHARED_PREF_RECIPE_NAME,recipeName);
             editor.putString(SHARED_PREF_RECIPE_INGREDIENTS,json);
             editor.apply();
             Toast.makeText(getApplicationContext(),"Added to widget",Toast.LENGTH_SHORT).show();
