@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -20,6 +21,7 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.actionOn
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -42,10 +44,22 @@ public class MainActivityTest {
     @Test
     public void testClickonRecipeRecyclerview_OpenDetailsActivity(){
 //  it works
-//      onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
+      onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
 //it works
-//        onView(withId(R.id.recyclerView))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(withId(R.id.recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+   //not working
+      //  onView((withId(R.id.toolbar1))).check(matches(withText("Nutella Pie")));
+        //it works
+    onView(withId(R.id.list_steps)).check(matches(withText("Steps :")));
+
+        onView(withId(R.id.recyclerView2))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(withId(R.id.recipe_description)).check(matches(withText("Recipe Introduction")));
+        onView((withId(R.id.nextStep))).perform(click());
+        onView(withId(R.id.recipe_description)).check(matches(withText("1. Preheat the oven to 350°F. Butter a 9\" deep dish pie pan.")));
+
+
         //not work
 //        onView(withId(R.id.card_view3))
 //                .check(matches(isDisplayed())) ;
@@ -56,11 +70,11 @@ public class MainActivityTest {
 //                .perform(click());
         //it works
 
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.recyclerView),
-                        withParent(withId(R.id.fragment)),
-                        isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
+//        ViewInteraction recyclerView = onView(
+//                allOf(withId(R.id.recyclerView),
+//                        withParent(withId(R.id.fragment)),
+//                        isDisplayed()));
+//        recyclerView.perform(actionOnItemAtPosition(0, click()));
     }
 
 

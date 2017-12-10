@@ -1,10 +1,12 @@
 package com.example.android.bakingrecipes;
 
 
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,31 +56,48 @@ public class RecipeStepFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         exoPlayerView= rootView.findViewById(R.id.recipe_step_video);
+        exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.caramello));
+        exoPlayerView.setUseArtwork(true);
         nextButton=rootView.findViewById(R.id.nextStep);
         prevButton=rootView.findViewById(R.id.previousStep);
         descriptionText = rootView.findViewById(R.id.recipe_description);
         setVideo(stepItem);
+        if (savedInstanceState != null) {
+            long pos = savedInstanceState.getLong("seekto");
+            seekTo(pos);
+        }
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 position++;
-                if (position <= stepItems.size()) {
-                    StepItem step = (StepItem) stepItems.get(position);
+                if (position < stepItems.size()) {
+                    StepItem step = stepItems.get(position);
                     setVideo(step);
+                } else {
+                    position--;
                 }
             }
         });
+
         prevButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 position--;
                 if (position >= 0) {
-                    StepItem step = (StepItem) stepItems.get(position);
+                    StepItem step = stepItems.get(position);
                     setVideo(step);
+                } else {
+                    position++;
                 }
             }
         });
         return rootView;
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putLong("seekto", exoPlayer.getCurrentPosition());
+        super.onSaveInstanceState(outState);
     }
 
     public void setVideo(StepItem stepItem) {
@@ -90,19 +109,28 @@ public class RecipeStepFragment extends Fragment {
         descriptionText.setText(stepItem.getDescription());
 
     }
+
     private void setExoPLayerVideo(Uri uri) {
+        Log.d("Recipe", uri.toString());
         if (exoPlayer==null) {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
+
             exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
             exoPlayerView.setPlayer(exoPlayer);
-            String userAgent = Util.getUserAgent(getActivity(), "bakingrecipes");
-            MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
-                    getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
-            exoPlayer.prepare(mediaSource);
-            exoPlayer.setPlayWhenReady(true);
         }
+        String userAgent = Util.getUserAgent(getActivity(), "bakingrecipes");
+        MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
+                getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
+        exoPlayer.prepare(mediaSource);
+
+        exoPlayer.setPlayWhenReady(true);
     }
+
+    private void seekTo(long pos) {
+        exoPlayer.seekTo(pos);
+    }
+
     private void releasePlayer() {
         if(exoPlayer!=null) {
             exoPlayer.stop();
@@ -110,6 +138,7 @@ public class RecipeStepFragment extends Fragment {
         }
         exoPlayer = null;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

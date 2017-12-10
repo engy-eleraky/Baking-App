@@ -45,6 +45,12 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     RecyclerView recyclerView;
     public RecipeListFragment() {
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outsate) {
         outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());

@@ -37,8 +37,12 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Intent intent = getIntent();
-         recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
-        setTitle(recipe.getRecipeName());
+        recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
+//        setTitle(recipe.getRecipeName());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        toolbar.setTitle(recipe.getRecipeName());
+        setSupportActionBar(toolbar);
+
         if(findViewById(R.id.layout) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
@@ -54,7 +58,7 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
         else{
             mTwoPane=false;
         }
-   }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,7 +104,7 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
             Intent intent = new Intent(this, DetailsRecipeStepActivity.class);
             intent.putExtras(args);
             startActivity(intent);
-       }
+        }
     }
     private void sendBroadcast() {
 
