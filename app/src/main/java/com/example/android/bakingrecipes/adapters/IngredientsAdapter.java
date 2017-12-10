@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.android.bakingrecipes.R;
 import com.example.android.bakingrecipes.models.IngredientItem;
-
 import java.util.ArrayList;
 
 /**
@@ -44,8 +42,8 @@ public class IngredientsAdapter extends BaseAdapter {
 
     {
         if(convertView==null) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false);
-    }
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false);
+        }
         TextView quantity=convertView.findViewById(R.id.quantity);
         TextView measure=convertView.findViewById(R.id.measure);
         TextView name=convertView.findViewById(R.id.name);
@@ -55,5 +53,5 @@ public class IngredientsAdapter extends BaseAdapter {
         measure.setText(ingredientItem.getMeasure());
         name.setText("\t"+ingredientItem.getIngredient());
         return convertView;
-}
+    }
 }

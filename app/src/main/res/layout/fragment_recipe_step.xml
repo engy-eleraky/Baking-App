@@ -19,31 +19,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-           />
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="50dp">
-        <ImageButton
-            android:id="@+id/nextStep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:contentDescription="next button"
-            android:src="@drawable/next"
-            android:visibility="visible"
-            />
-        <ImageButton
-            android:id="@+id/previousStep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:contentDescription="prev button"
-            android:src="@drawable/prev"
-            android:visibility="visible"
-           />
+            <ImageButton
+                android:id="@+id/nextStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:contentDescription="next button"
+                android:src="@drawable/next"
+                android:visibility="visible"
+                />
+            <ImageButton
+                android:id="@+id/previousStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="prev button"
+                android:src="@drawable/prev"
+                android:visibility="visible"
+                />
         </RelativeLayout>
     </LinearLayout>
 

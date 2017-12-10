@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.example.android.bakingrecipes.adapters.RecipesAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.retrofit.ApiInterface;

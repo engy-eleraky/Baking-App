@@ -2,34 +2,21 @@ package com.example.android.bakingrecipes;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.example.android.bakingrecipes.adapters.IngredientsAdapter;
 import com.example.android.bakingrecipes.adapters.StepsAdapter;
-import com.example.android.bakingrecipes.models.IngredientItem;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
-import com.example.android.bakingrecipes.widget.BakingWidgetProvider;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

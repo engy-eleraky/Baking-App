@@ -51,8 +51,8 @@ public class RecipeStepFragment extends Fragment {
         }
 
         final StepItem stepItem= (StepItem) args.getSerializable(DetailsActivity.DATA_KEY);
-        position=args.getInt("click");
-        stepItems= (ArrayList) args.getSerializable("array");
+        position=args.getInt(DetailsActivity.CLICK_KEY);
+        stepItems= (ArrayList) args.getSerializable(DetailsActivity.ARRAY_KEY);
 
         rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
         exoPlayerView= rootView.findViewById(R.id.recipe_step_video);
@@ -66,35 +66,35 @@ public class RecipeStepFragment extends Fragment {
             long pos = savedInstanceState.getLong("seekto");
             seekTo(pos);
         }
-          if(DetailsActivity.mTwoPane)
-          {
-              nextButton.setVisibility(View.INVISIBLE);
-              prevButton.setVisibility(View.INVISIBLE);
-          }else {
-              nextButton.setOnClickListener(new View.OnClickListener() {
-                  public void onClick(View v) {
-                      position++;
-                      if (position < stepItems.size()) {
-                          StepItem step = stepItems.get(position);
-                          setVideo(step);
-                      } else {
-                          position--;
-                      }
-                  }
-              });
+        if(DetailsActivity.mTwoPane)
+        {
+            nextButton.setVisibility(View.INVISIBLE);
+            prevButton.setVisibility(View.INVISIBLE);
+        }else {
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    position++;
+                    if (position < stepItems.size()) {
+                        StepItem step = stepItems.get(position);
+                        setVideo(step);
+                    } else {
+                        position--;
+                    }
+                }
+            });
 
-              prevButton.setOnClickListener(new View.OnClickListener() {
-                  public void onClick(View v) {
-                      position--;
-                      if (position >= 0) {
-                          StepItem step = stepItems.get(position);
-                          setVideo(step);
-                      } else {
-                          position++;
-                      }
-                  }
-              });
-         }
+            prevButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    position--;
+                    if (position >= 0) {
+                        StepItem step = stepItems.get(position);
+                        setVideo(step);
+                    } else {
+                        position++;
+                    }
+                }
+            });
+        }
         return rootView;
 
     }

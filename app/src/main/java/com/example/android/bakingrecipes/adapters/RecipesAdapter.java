@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.android.bakingrecipes.R;
 import com.example.android.bakingrecipes.models.RecipeItem;
-import com.example.android.bakingrecipes.models.StepItem;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 /**
@@ -75,14 +72,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         private TextView recipeText;
         private ImageView recipeImage;
         private TextView servingsText;
-       public ViewHolder(View itemView) {
-           super(itemView);
-           recipeText=itemView.findViewById(R.id.title);
-           recipeImage=itemView.findViewById(R.id.image);
-           servingsText=itemView.findViewById(R.id.servings);
-           itemView.setOnClickListener(this);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            recipeText=itemView.findViewById(R.id.title);
+            recipeImage=itemView.findViewById(R.id.image);
+            servingsText=itemView.findViewById(R.id.servings);
+            itemView.setOnClickListener(this);
 
-       }
+        }
 
         @Override
         public void onClick(View view) {

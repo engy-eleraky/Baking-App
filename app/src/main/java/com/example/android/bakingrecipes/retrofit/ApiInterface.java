@@ -1,9 +1,7 @@
 package com.example.android.bakingrecipes.retrofit;
 
 import com.example.android.bakingrecipes.models.RecipeItem;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 
