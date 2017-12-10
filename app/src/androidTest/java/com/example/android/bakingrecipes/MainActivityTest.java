@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.allOf;
  * Created by Noga on 12/7/2017.
  */
 
-//works
+
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     @Rule
@@ -43,15 +43,13 @@ public class MainActivityTest {
 
     @Test
     public void testClickonRecipeRecyclerview_OpenDetailsActivity(){
-//  it works
-      onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
-//it works
+
+        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
+
         onView(withId(R.id.recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-   //not working
-      //  onView((withId(R.id.toolbar1))).check(matches(withText("Nutella Pie")));
-        //it works
-    onView(withId(R.id.list_steps)).check(matches(withText("Steps :")));
+
+        onView(withId(R.id.list_steps)).check(matches(withText("Steps :")));
 
         onView(withId(R.id.recyclerView2))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
@@ -59,22 +57,6 @@ public class MainActivityTest {
         onView((withId(R.id.nextStep))).perform(click());
         onView(withId(R.id.recipe_description)).check(matches(withText("1. Preheat the oven to 350°F. Butter a 9\" deep dish pie pan.")));
 
-
-        //not work
-//        onView(withId(R.id.card_view3))
-//                .check(matches(isDisplayed())) ;
-        //not work
-//        onData(withId(R.id.card_view3))
-//                .inAdapterView(withId(R.id.recyclerView2))
-//                .atPosition(0)
-//                .perform(click());
-        //it works
-
-//        ViewInteraction recyclerView = onView(
-//                allOf(withId(R.id.recyclerView),
-//                        withParent(withId(R.id.fragment)),
-//                        isDisplayed()));
-//        recyclerView.perform(actionOnItemAtPosition(0, click()));
     }
 
 
