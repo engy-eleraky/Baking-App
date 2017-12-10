@@ -4,7 +4,6 @@
     android:background="@color/colorAccent"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/ingredient_quantity"
         android:layout_width="match_parent"

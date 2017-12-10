@@ -1,21 +1,16 @@
 package com.example.android.bakingrecipes.widget;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 import com.example.android.bakingrecipes.DetailsActivity;
 import com.example.android.bakingrecipes.R;
-import com.example.android.bakingrecipes.RecipeListFragment;
 import com.example.android.bakingrecipes.models.IngredientItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
 
 /**
@@ -23,6 +18,7 @@ import java.util.ArrayList;
  */
 
 public class BakingWidgetRemoteViewsService extends RemoteViewsService {
+    public static String name;
 
 
     @Override
@@ -33,7 +29,6 @@ public class BakingWidgetRemoteViewsService extends RemoteViewsService {
 
     class MyWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Context context;
-        //String name;
         String ingredientList;
         private ArrayList<IngredientItem> ingredientItems;
         public MyWidgetRemoteViewsFactory(Context context) {
@@ -48,7 +43,7 @@ public class BakingWidgetRemoteViewsService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            //name=preferences.getString(DetailsActivity.SHARED_PREF_RECIPE_NAME,"");
+            name=preferences.getString(DetailsActivity.SHARED_PREF_RECIPE_NAME,"");
             String json = preferences.getString(DetailsActivity.SHARED_PREF_RECIPE_INGREDIENTS, "");
             if (!json.equals("")) {
                 Gson gson = new Gson();
@@ -72,14 +67,14 @@ public class BakingWidgetRemoteViewsService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_view_item);
-            String ingredient=ingredientItems.get(position).getIngredient();
-            String measure=ingredientItems.get(position).getMeasure();
-            String quantity=ingredientItems.get(position).getQuantity();
-            ingredientList=quantity +"\t"+measure;
-            views.setTextViewText(R.id.ingredient_quantity,ingredientList);
-            views.setTextViewText(R.id.ingredient_name,ingredient);
-
+            String ingredient = ingredientItems.get(position).getIngredient();
+            String measure = ingredientItems.get(position).getMeasure();
+            String quantity = ingredientItems.get(position).getQuantity();
+            ingredientList = quantity + "\t" + measure;
+            views.setTextViewText(R.id.ingredient_quantity, ingredientList);
+            views.setTextViewText(R.id.ingredient_name, ingredient);
             return views;
+
         }
 
         @Override
