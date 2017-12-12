@@ -46,7 +46,8 @@ public class RecipeStepFragment extends Fragment {
     Uri video_url;
     int position;
     ArrayList<StepItem> stepItems;
-
+    long pos;
+    boolean playForeGround;
 
 
     @Nullable
@@ -81,11 +82,13 @@ public class RecipeStepFragment extends Fragment {
             position=savedInstanceState.getInt("pos1");
             Uri newUrl=Uri.parse(stepItems.get(position).getVideoURL());
             descriptionText.setText(stepItems.get(position).getDescription());
+            setVideo();
             setExoPLayerVideo(newUrl);
+
             long pos = savedInstanceState.getLong("seekto");
             seekTo(pos);
-            boolean mPlayVideoWhenForegrounded=savedInstanceState.getBoolean("playVideo");
-            exoPlayer.setPlayWhenReady(mPlayVideoWhenForegrounded);
+            boolean mPlayVideo=savedInstanceState.getBoolean("playVideo");
+            exoPlayer.setPlayWhenReady(mPlayVideo);
         }
 
         if(DetailsActivity.mTwoPane)
@@ -132,13 +135,12 @@ public class RecipeStepFragment extends Fragment {
         });
 
     }
-
+    //doesn't save the position of exoplayer
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong("seekto", exoPlayer.getCurrentPosition());
+        outState.putLong("seekto", pos);
         outState.putInt("pos1",position);
-        outState.putBoolean("playVideo", exoPlayer.getPlayWhenReady());
-        exoPlayer.setPlayWhenReady(false);
+        outState.putBoolean("playVideo", playForeGround);
 
         super.onSaveInstanceState(outState);
     }
@@ -198,6 +200,9 @@ public class RecipeStepFragment extends Fragment {
 
     private void releasePlayer() {
         if(exoPlayer!=null) {
+            pos = exoPlayer.getCurrentPosition();
+            playForeGround=exoPlayer.getPlayWhenReady();
+            exoPlayer.setPlayWhenReady(false);
             exoPlayer.stop();
             exoPlayer.release();
         }
@@ -205,17 +210,17 @@ public class RecipeStepFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         releasePlayer();
-
     }
-    ///when returns from background exoplayer becomes null
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
-
+    public void onResume() {
+        super.onResume();
+        if (video_url != null) {
+            initialize();
+            setExoPLayerVideo(video_url);
+        }
     }
-
 }
