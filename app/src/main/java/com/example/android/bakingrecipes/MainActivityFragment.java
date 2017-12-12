@@ -60,22 +60,22 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         service = ApiService.getService();
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        progressBar =  rootView.findViewById(R.id.progressBar);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutManager = new GridLayoutManager(getActivity(), 1);
-        }else {
-            layoutManager = new GridLayoutManager(getActivity(), 3);
-
         }
+        else{
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+        }
+
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecipesAdapter(getActivity(), new ArrayList<RecipeItem>(0), this);
         recyclerView.setAdapter(adapter);
 
         loadData();
-        restoreLayoutManagerPosition();
         return rootView;
 
     }
@@ -105,6 +105,7 @@ public class MainActivityFragment extends Fragment implements RecipesAdapter.rec
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(adapter);
                     adapter.updateData(recipes);
+                    restoreLayoutManagerPosition();
                     Log.d("MainActivityFragment", "data loaded");
                 }else {
                     int statusCode  = response.code();
