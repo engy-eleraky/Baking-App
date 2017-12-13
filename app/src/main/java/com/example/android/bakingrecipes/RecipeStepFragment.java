@@ -207,4 +207,12 @@ public class RecipeStepFragment extends Fragment {
         exoPlayer = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(exoPlayer!=null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
+    }
 }
