@@ -25,10 +25,10 @@ import java.util.ArrayList;
 
 public class RecipeListFragment extends Fragment implements StepsAdapter.recipeStepListener{
     private static final String SAVED_LAYOUT_MANAGER = "layout";
+     public static RecipeItem recipe;
     Parcelable layout;
     OnItemClickListener mCallback;
     RecyclerView.LayoutManager layoutManager;
-    RecipeItem recipe;
     RecyclerView recyclerView;
     public RecipeListFragment() {
     }

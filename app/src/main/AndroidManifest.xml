@@ -11,6 +11,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -21,10 +22,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".DetailsActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".DetailsRecipeStepActivity"
-            android:label="current step">
+            android:label="current step"
+            android:parentActivityName=".DetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
 
         <receiver android:name=".widget.BakingWidgetProvider" >

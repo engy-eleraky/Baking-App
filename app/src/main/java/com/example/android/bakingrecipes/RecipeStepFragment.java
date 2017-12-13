@@ -25,6 +25,8 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -46,8 +48,6 @@ public class RecipeStepFragment extends Fragment {
     Uri video_url;
     int position;
     ArrayList<StepItem> stepItems;
-    long pos;
-    boolean playForeGround;
 
 
     @Nullable
@@ -71,11 +71,11 @@ public class RecipeStepFragment extends Fragment {
         playThumbnail=rootView.findViewById(R.id.play);
         descriptionText.setText(stepItem.getDescription());
 
-        thumbnail_url = Uri.parse(stepItem.getThumbnailURL());
-        video_url=Uri.parse(stepItem.getVideoURL());
+        thumbnail_url = Uri.parse(stepItems.get(position).getThumbnailURL());
+        video_url=Uri.parse(stepItems.get(position).getVideoURL());
 
-        setVideo();
         initialize();
+        setVideo();
         setExoPLayerVideo(video_url);
 
         if (savedInstanceState != null) {
@@ -84,7 +84,6 @@ public class RecipeStepFragment extends Fragment {
             descriptionText.setText(stepItems.get(position).getDescription());
             setVideo();
             setExoPLayerVideo(newUrl);
-
             long pos = savedInstanceState.getLong("seekto");
             seekTo(pos);
             boolean mPlayVideo=savedInstanceState.getBoolean("playVideo");
@@ -107,9 +106,10 @@ public class RecipeStepFragment extends Fragment {
             public void onClick(View v) {
                 position++;
                 if (position < stepItems.size()) {
-                    descriptionText.setText(stepItems.get(position).getDescription());
                     Uri newUrl=Uri.parse(stepItems.get(position).getVideoURL());
                     descriptionText.setText(stepItems.get(position).getDescription());
+                    releasePlayer();
+                    initialize();
                     setVideo();
                     setExoPLayerVideo(newUrl);
                 } else {
@@ -123,9 +123,10 @@ public class RecipeStepFragment extends Fragment {
             public void onClick(View v) {
                 position--;
                 if (position >= 0) {
-                    descriptionText.setText(stepItems.get(position).getDescription());
                     Uri newUrl=Uri.parse(stepItems.get(position).getVideoURL());
                     descriptionText.setText(stepItems.get(position).getDescription());
+                    releasePlayer();
+                    initialize();
                     setVideo();
                     setExoPLayerVideo(newUrl);
                 } else {
@@ -135,12 +136,12 @@ public class RecipeStepFragment extends Fragment {
         });
 
     }
-    //doesn't save the position of exoplayer
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong("seekto", pos);
+        outState.putLong("seekto", exoPlayer.getCurrentPosition());
         outState.putInt("pos1",position);
-        outState.putBoolean("playVideo", playForeGround);
+        outState.putBoolean("playVideo", exoPlayer.getPlayWhenReady());
+        exoPlayer.setPlayWhenReady(false);
 
         super.onSaveInstanceState(outState);
     }
@@ -160,7 +161,7 @@ public class RecipeStepFragment extends Fragment {
             thumbnail.setVisibility(View.VISIBLE);
             playThumbnail.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(),"thunmbnail",Toast.LENGTH_LONG).show();
-            //Picasso.with(getActivity()).load(thumbnail_url).into(thumbnail);
+            Picasso.with(getActivity()).load(thumbnail_url).into(thumbnail);
             playThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -200,27 +201,10 @@ public class RecipeStepFragment extends Fragment {
 
     private void releasePlayer() {
         if(exoPlayer!=null) {
-            pos = exoPlayer.getCurrentPosition();
-            playForeGround=exoPlayer.getPlayWhenReady();
-            exoPlayer.setPlayWhenReady(false);
             exoPlayer.stop();
             exoPlayer.release();
         }
         exoPlayer = null;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        releasePlayer();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (video_url != null) {
-            initialize();
-            setExoPLayerVideo(video_url);
-        }
-    }
 }
