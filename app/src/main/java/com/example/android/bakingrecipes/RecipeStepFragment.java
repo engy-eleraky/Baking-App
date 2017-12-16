@@ -43,7 +43,6 @@ public class RecipeStepFragment extends Fragment {
     ImageButton prevButton;
     ImageView thumbnail;
     ImageView noVideo;
-    ImageView playThumbnail;
     Uri thumbnail_url;
     Uri video_url;
     int position;
@@ -68,14 +67,13 @@ public class RecipeStepFragment extends Fragment {
         descriptionText = rootView.findViewById(R.id.recipe_description);
         thumbnail=rootView.findViewById(R.id.image);
         noVideo=rootView.findViewById(R.id.no_video);
-        playThumbnail=rootView.findViewById(R.id.play);
         descriptionText.setText(stepItem.getDescription());
 
         thumbnail_url = Uri.parse(stepItems.get(position).getThumbnailURL());
         video_url=Uri.parse(stepItems.get(position).getVideoURL());
 
-        initialize();
         setVideo();
+        initialize();
         setExoPLayerVideo(video_url);
 
         if (savedInstanceState != null) {
@@ -152,29 +150,30 @@ public class RecipeStepFragment extends Fragment {
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.VISIBLE);
             thumbnail.setVisibility(View.INVISIBLE);
-            playThumbnail.setVisibility(View.INVISIBLE);
 
         }
-        //thumbnail didn't loaded
-        else if (thumbnail_url != null && stepItems.get(position).getThumbnailURL().length() > 0){
+        else if ( stepItems.get(position).getThumbnailURL().length() > 0){
+            noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
-            playThumbnail.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(),"thunmbnail",Toast.LENGTH_LONG).show();
-            Picasso.with(getActivity()).load(thumbnail_url).into(thumbnail);
-            playThumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    exoPlayerView.setVisibility(View.VISIBLE);
-                    thumbnail.setVisibility(View.INVISIBLE);
-                    playThumbnail.setVisibility(View.INVISIBLE);
-                }
-            });
+            Picasso picasso = new Picasso.Builder(getActivity())
+                    .listener(new Picasso.Listener() {
+                        @Override
+                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                            Toast.makeText(getActivity(),"thunmbnail fails to load",Toast.LENGTH_SHORT).show();
+                            thumbnail.setVisibility(View.INVISIBLE);
+                            noVideo.setVisibility(View.VISIBLE);
+                        }
+                    })
+                    .build();
+            picasso.load(thumbnail_url)
+                    .into(thumbnail);
+
         }
         else{
             exoPlayerView.setVisibility(View.INVISIBLE);
             noVideo.setVisibility(View.VISIBLE);
-            playThumbnail.setVisibility(View.INVISIBLE);
+            thumbnail.setVisibility(View.INVISIBLE);
 
         }
     }
