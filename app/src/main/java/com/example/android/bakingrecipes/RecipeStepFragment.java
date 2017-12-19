@@ -26,7 +26,6 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 
@@ -46,6 +45,8 @@ public class RecipeStepFragment extends Fragment {
     Uri thumbnail_url;
     Uri video_url;
     int position;
+    Long mPos;
+    boolean mPlayVideo;
     ArrayList<StepItem> stepItems;
 
 
@@ -82,7 +83,7 @@ public class RecipeStepFragment extends Fragment {
             descriptionText.setText(stepItems.get(position).getDescription());
             setVideo();
             setExoPLayerVideo(newUrl);
-            long pos = savedInstanceState.getLong("seekto");
+            Long pos = savedInstanceState.getLong("seekto");
             seekTo(pos);
             boolean mPlayVideo=savedInstanceState.getBoolean("playVideo");
             exoPlayer.setPlayWhenReady(mPlayVideo);
@@ -146,7 +147,7 @@ public class RecipeStepFragment extends Fragment {
 
     public void setVideo() {
 
-        if (stepItems.get(position).getVideoURL().length() > 0) {
+        if ( stepItems.get(position).getVideoURL().length() > 0) {
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.VISIBLE);
             thumbnail.setVisibility(View.INVISIBLE);
@@ -156,19 +157,26 @@ public class RecipeStepFragment extends Fragment {
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
-            Picasso picasso = new Picasso.Builder(getActivity())
-                    .listener(new Picasso.Listener() {
-                        @Override
-                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                            Toast.makeText(getActivity(),"thunmbnail fails to load",Toast.LENGTH_SHORT).show();
-                            thumbnail.setVisibility(View.INVISIBLE);
-                            noVideo.setVisibility(View.VISIBLE);
-                        }
-                    })
-                    .build();
-            picasso.load(thumbnail_url)
-                    .into(thumbnail);
-
+           // Picasso.with(getActivity()).load(stepItems.get(position).getThumbnailURL()).into(thumbnail);
+            if(!stepItems.get(position).getThumbnailURL().toString().endsWith(".mp4")){
+                Picasso.with(getActivity()).load(stepItems.get(position).getThumbnailURL()).into(thumbnail);
+            }
+            else{
+                Picasso.with(getActivity()).load(R.drawable.cake).into(thumbnail);
+                Toast.makeText(getActivity(),"thumb",Toast.LENGTH_SHORT).show();
+            }
+//            Picasso picasso = new Picasso.Builder(getActivity())
+//                    .listener(new Picasso.Listener() {
+//                        @Override
+//                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+//                            Toast.makeText(getActivity(),"thunmbnail fails to load",Toast.LENGTH_SHORT).show();
+//                            thumbnail.setVisibility(View.INVISIBLE);
+//                            noVideo.setVisibility(View.VISIBLE);
+//                        }
+//                    })
+//                    .build();
+//            picasso.load(thumbnail_url)
+//                    .into(thumbnail);
         }
         else{
             exoPlayerView.setVisibility(View.INVISIBLE);
@@ -206,12 +214,30 @@ public class RecipeStepFragment extends Fragment {
         exoPlayer = null;
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         if(exoPlayer!=null) {
+            mPos=exoPlayer.getCurrentPosition();
+            mPlayVideo=exoPlayer.getPlayWhenReady();
+            exoPlayer.setPlayWhenReady(false);
             exoPlayer.stop();
             exoPlayer.release();
+        }
+        exoPlayer=null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(exoPlayer==null) {
+            initialize();
+            video_url=Uri.parse(stepItems.get(position).getVideoURL());
+            setExoPLayerVideo(video_url);
+            exoPlayer.seekTo(mPos);
+            exoPlayer.setPlayWhenReady(mPlayVideo);
+
         }
     }
 }

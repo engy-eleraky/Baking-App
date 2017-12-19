@@ -11,9 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import com.example.android.bakingrecipes.adapters.IngredientsAdapter;
-import com.example.android.bakingrecipes.adapters.StepsAdapter;
+import com.example.android.bakingrecipes.adapters.ListAdapter;
 import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
 import java.util.ArrayList;
@@ -23,13 +21,20 @@ import java.util.ArrayList;
  * Created by Noga on 11/26/2017.
  */
 
-public class RecipeListFragment extends Fragment implements StepsAdapter.recipeStepListener{
-    private static final String SAVED_LAYOUT_MANAGER = "layout";
-     public static RecipeItem recipe;
-    Parcelable layout;
+public class RecipeListFragment extends Fragment implements ListAdapter.recipeStepListener{
+    private static final String SAVED_LAYOUT1_MANAGER = "ingredientsLayout";
+    private static final String SAVED_LAYOUT2_MANAGER = "stepsLayout";
+    public static RecipeItem recipe;
+    RecyclerView recyclerViewIngredients;
+    RecyclerView reclerViewSteps;
+    ListAdapter ingredientsAdapter;
+    ListAdapter stepsAdapter;
+    RecyclerView.LayoutManager ingredientsLayout;
+    RecyclerView.LayoutManager stepsLayout;
+    Parcelable layout1;
+    Parcelable layout2;
     OnItemClickListener mCallback;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView recyclerView;
+
     public RecipeListFragment() {
     }
 
@@ -40,14 +45,16 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
 
     @Override
     public void onSaveInstanceState(Bundle outsate) {
-        outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        outsate.putParcelable(SAVED_LAYOUT1_MANAGER, recyclerViewIngredients.getLayoutManager().onSaveInstanceState());
+        outsate.putParcelable(SAVED_LAYOUT2_MANAGER, reclerViewSteps.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outsate);
     }
     @Override
     public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null  ){
-            layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+            layout1 = savedInstanceState.getParcelable(SAVED_LAYOUT1_MANAGER);
+            layout2=savedInstanceState.getParcelable(SAVED_LAYOUT2_MANAGER);
         }
     }
 
@@ -78,17 +85,23 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
 
         Intent intent = getActivity().getIntent();
         recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
-        ListView listView=rootView.findViewById(R.id.listView);
-        IngredientsAdapter adapter=new IngredientsAdapter(getActivity(),recipe.getIngredients());
-        listView.setAdapter(adapter);
 
-        recyclerView = rootView.findViewById(R.id.recyclerView2);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        StepsAdapter adapterSteps = new StepsAdapter(getActivity(), recipe.getSteps(), this);
-        recyclerView.setAdapter(adapterSteps);
+        recyclerViewIngredients = rootView.findViewById(R.id.recyclerView3);
+        recyclerViewIngredients.setHasFixedSize(true);
+        ingredientsLayout = new LinearLayoutManager(getActivity());
+        recyclerViewIngredients.setLayoutManager(ingredientsLayout);
+        ingredientsAdapter = new ListAdapter(getActivity(), recipe.getIngredients(), this);
+        recyclerViewIngredients.setAdapter(ingredientsAdapter);
+
+        reclerViewSteps = rootView.findViewById(R.id.recyclerView2);
+        reclerViewSteps.setHasFixedSize(true);
+        stepsLayout = new LinearLayoutManager(getActivity());
+        reclerViewSteps.setLayoutManager(stepsLayout);
+        stepsAdapter = new ListAdapter(getActivity(), recipe.getSteps(), this);
+        reclerViewSteps.setAdapter(stepsAdapter);
+
         restoreLayoutManagerPosition();
+
         return rootView;
     }
 
@@ -99,8 +112,9 @@ public class RecipeListFragment extends Fragment implements StepsAdapter.recipeS
     }
 
     private void restoreLayoutManagerPosition() {
-        if (layout != null ) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(layout);
+        if (layout1 != null &layout2 != null ) {
+            recyclerViewIngredients.getLayoutManager().onRestoreInstanceState(layout1);
+            reclerViewSteps.getLayoutManager().onRestoreInstanceState(layout2);
 
         }
     }
