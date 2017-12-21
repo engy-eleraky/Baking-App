@@ -43,12 +43,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         }catch(IllegalArgumentException e){
             Picasso.with(context).load(R.drawable.cake).into(holder.recipeImage);
         }
-//        if(recipe.getRecipeImage() !=null && recipes.get(position).getRecipeImage().length()>0){
-//            Picasso.with(context).load(recipe.getRecipeImage()).into(holder.recipeImage);
-//        }
-//        else{
-//            Picasso.with(context).load(R.drawable.cake).into(holder.recipeImage);
-//        }
+
         holder.recipeText.setText(recipe.getRecipeName());
         holder.servingsText.setText(recipe.getServings());
 

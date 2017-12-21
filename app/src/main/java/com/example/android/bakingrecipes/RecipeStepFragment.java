@@ -157,26 +157,19 @@ public class RecipeStepFragment extends Fragment {
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
-           // Picasso.with(getActivity()).load(stepItems.get(position).getThumbnailURL()).into(thumbnail);
-            if(!stepItems.get(position).getThumbnailURL().toString().endsWith(".mp4")){
-                Picasso.with(getActivity()).load(stepItems.get(position).getThumbnailURL()).into(thumbnail);
-            }
-            else{
-                Picasso.with(getActivity()).load(R.drawable.cake).into(thumbnail);
-                Toast.makeText(getActivity(),"thumb",Toast.LENGTH_SHORT).show();
-            }
-//            Picasso picasso = new Picasso.Builder(getActivity())
-//                    .listener(new Picasso.Listener() {
-//                        @Override
-//                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-//                            Toast.makeText(getActivity(),"thunmbnail fails to load",Toast.LENGTH_SHORT).show();
-//                            thumbnail.setVisibility(View.INVISIBLE);
-//                            noVideo.setVisibility(View.VISIBLE);
-//                        }
-//                    })
-//                    .build();
-//            picasso.load(thumbnail_url)
-//                    .into(thumbnail);
+
+            Picasso picasso = new Picasso.Builder(getActivity())
+                    .listener(new Picasso.Listener() {
+                        @Override
+                        public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                            Toast.makeText(getActivity(),"thunmbnail fails to load",Toast.LENGTH_SHORT).show();
+                            thumbnail.setVisibility(View.INVISIBLE);
+                            noVideo.setVisibility(View.VISIBLE);
+                        }
+                    })
+                    .build();
+            picasso.load(thumbnail_url)
+                    .into(thumbnail);
         }
         else{
             exoPlayerView.setVisibility(View.INVISIBLE);
