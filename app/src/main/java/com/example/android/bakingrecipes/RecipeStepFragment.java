@@ -83,9 +83,9 @@ public class RecipeStepFragment extends Fragment {
             descriptionText.setText(stepItems.get(position).getDescription());
             setVideo();
             setExoPLayerVideo(newUrl);
-            Long pos = savedInstanceState.getLong("seekto");
-            seekTo(pos);
-            boolean mPlayVideo=savedInstanceState.getBoolean("playVideo");
+            mPos = savedInstanceState.getLong("seekto");
+            seekTo(mPos);
+            mPlayVideo=savedInstanceState.getBoolean("playVideo");
             exoPlayer.setPlayWhenReady(mPlayVideo);
         }
 
@@ -147,13 +147,13 @@ public class RecipeStepFragment extends Fragment {
 
     public void setVideo() {
 
-        if ( stepItems.get(position).getVideoURL().length() > 0) {
+        if ( stepItems.get(position).getVideoURL()!=null&& stepItems.get(position).getVideoURL().length() > 0) {
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.VISIBLE);
             thumbnail.setVisibility(View.INVISIBLE);
 
         }
-        else if ( stepItems.get(position).getThumbnailURL().length() > 0){
+        else if ( stepItems.get(position).getThumbnailURL()!=null&&stepItems.get(position).getThumbnailURL().length() > 0){
             noVideo.setVisibility(View.INVISIBLE);
             exoPlayerView.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
@@ -192,6 +192,7 @@ public class RecipeStepFragment extends Fragment {
             LoadControl loadControl = new DefaultLoadControl();
             exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
             exoPlayerView.setPlayer(exoPlayer);
+
         }
 
     }
@@ -224,13 +225,18 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(exoPlayer==null) {
+
+        try{
             initialize();
-            video_url=Uri.parse(stepItems.get(position).getVideoURL());
+            video_url = Uri.parse(stepItems.get(position).getVideoURL());
             setExoPLayerVideo(video_url);
             exoPlayer.seekTo(mPos);
             exoPlayer.setPlayWhenReady(mPlayVideo);
-
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
+
+
 }

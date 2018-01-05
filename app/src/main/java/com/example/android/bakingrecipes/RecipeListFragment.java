@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class RecipeListFragment extends Fragment implements ListAdapter.recipeStepListener{
     private static final String SAVED_LAYOUT1_MANAGER = "ingredientsLayout";
     private static final String SAVED_LAYOUT2_MANAGER = "stepsLayout";
-    public static RecipeItem recipe;
+    RecipeItem recipe;
     RecyclerView recyclerViewIngredients;
     RecyclerView reclerViewSteps;
     ListAdapter ingredientsAdapter;

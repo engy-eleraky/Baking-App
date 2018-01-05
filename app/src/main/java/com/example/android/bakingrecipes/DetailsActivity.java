@@ -11,10 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.android.bakingrecipes.models.RecipeItem;
 import com.example.android.bakingrecipes.models.StepItem;
 import com.example.android.bakingrecipes.widget.BakingWidgetProvider;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+
 
 public class DetailsActivity extends AppCompatActivity implements RecipeListFragment.OnItemClickListener {
     public static final String DATA_KEY = "myobj";
@@ -24,13 +27,16 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public static final String SHARED_PREF_RECIPE_NAME="recipeName";
     public static final String SHARED_PREF_RECIPE_INGREDIENTS="recipeIngredients";
     public static boolean mTwoPane;
+    RecipeItem recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        Intent intent = getIntent();
+        recipe = (RecipeItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
-        toolbar.setTitle(RecipeListFragment.recipe.getRecipeName());
+        toolbar.setTitle(recipe.getRecipeName());
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -62,9 +68,9 @@ public class DetailsActivity extends AppCompatActivity implements RecipeListFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_add) {
-            String recipeName = RecipeListFragment.recipe.getRecipeName() ;
+            String recipeName = recipe.getRecipeName() ;
             Gson gson = new Gson();
-            String json = gson.toJson(RecipeListFragment.recipe.getIngredients());
+            String json = gson.toJson(recipe.getIngredients());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor;
             editor = preferences.edit();
